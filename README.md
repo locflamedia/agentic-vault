@@ -101,6 +101,17 @@ If you cloned the repo locally:
 codex mcp add agentic-vault -- node /absolute/path/to/agentic-vault/dist/cli/index.js mcp /absolute/path/to/my-vault
 ```
 
+### Make Codex use the vault proactively
+
+MCP tools are available to the model, but most clients only call them when the current instructions make the vault relevant. For proactive memory behavior in Codex, install the bundled skill:
+
+```bash
+mkdir -p ~/.codex/skills/agentic-vault
+cp skills/agentic-vault/SKILL.md ~/.codex/skills/agentic-vault/SKILL.md
+```
+
+After restarting Codex, the skill nudges the agent to use `vault_scan`, `wiki_find_related`, and read/write wiki tools when the user asks about saved knowledge, prior notes, durable memory, source material, or reusable answers.
+
 ## Update
 
 If you installed from npm:
