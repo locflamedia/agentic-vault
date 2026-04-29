@@ -16,8 +16,10 @@ Or install globally:
 
 ```bash
 npm install -g @locflamedia/agentic-vault
-agentic-vault init ./my-vault
+agentic-vault codex-install ~/Documents/my-vault
 ```
+
+`codex-install` initializes the vault, registers the MCP server in Codex, and installs the proactive Agentic Vault skill. If you omit the path, it uses `~/Documents/my-vault`.
 
 For local development from the repository:
 
@@ -34,6 +36,7 @@ agentic-vault init ./my-vault
 agentic-vault scan ./my-vault
 agentic-vault check ./my-vault
 agentic-vault mcp ./my-vault
+agentic-vault codex-install ~/Documents/my-vault
 ```
 
 `init` creates:
@@ -103,14 +106,13 @@ codex mcp add agentic-vault -- node /absolute/path/to/agentic-vault/dist/cli/ind
 
 ### Make Codex use the vault proactively
 
-MCP tools are available to the model, but most clients only call them when the current instructions make the vault relevant. For proactive memory behavior in Codex, install the bundled skill:
+MCP tools are available to the model, but most clients only call them when the current instructions make the vault relevant. For proactive memory behavior in Codex, run:
 
 ```bash
-mkdir -p ~/.codex/skills/agentic-vault
-cp skills/agentic-vault/SKILL.md ~/.codex/skills/agentic-vault/SKILL.md
+agentic-vault codex-install ~/Documents/my-vault
 ```
 
-After restarting Codex, the skill nudges the agent to use `vault_scan`, `wiki_find_related`, and read/write wiki tools when the user asks about saved knowledge, prior notes, durable memory, source material, or reusable answers.
+This initializes the vault, writes the MCP entry to `~/.codex/config.toml`, and installs the bundled skill to `~/.codex/skills/agentic-vault/SKILL.md`. After restarting Codex, the skill nudges the agent to use `vault_scan`, `wiki_find_related`, and read/write wiki tools when the user asks about saved knowledge, prior notes, durable memory, source material, or reusable answers.
 
 ## Update
 

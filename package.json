@@ -1,6 +1,6 @@
 {
   "name": "@locflamedia/agentic-vault",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local-first MCP server and CLI for AI-managed Obsidian-compatible knowledge vaults.",
   "type": "module",
   "bin": {

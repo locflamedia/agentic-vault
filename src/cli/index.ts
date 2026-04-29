@@ -2,6 +2,7 @@
 import { initVault, scanVault, vaultHealth } from "../core/vault.js";
 import { errorMessage } from "../core/errors.js";
 import { startMcpServer } from "../mcp/stdio.js";
+import { installCodexIntegration } from "../core/codex.js";
 
 async function main(argv: string[]): Promise<void> {
   const [command, pathArg] = argv;
@@ -46,6 +47,15 @@ async function main(argv: string[]): Promise<void> {
     return;
   }
 
+  if (command === "codex-install") {
+    const result = await installCodexIntegration(pathArg);
+    printJson({
+      ...result,
+      restartRequired: true
+    });
+    return;
+  }
+
   throw new Error(`Unknown command: ${command}`);
 }
 
@@ -57,6 +67,7 @@ Usage:
   agentic-vault scan <vault-path>
   agentic-vault check <vault-path>
   agentic-vault mcp <vault-path>
+  agentic-vault codex-install [vault-path]
 
 V1 is local-first: raw/ is read-only source material, wiki/ is AI-maintained markdown.
 `);
