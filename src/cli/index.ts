@@ -3,15 +3,24 @@ import { initVault, scanVault, vaultHealth } from "../core/vault.js";
 import { errorMessage } from "../core/errors.js";
 import { startMcpServer } from "../mcp/stdio.js";
 import { installCodexIntegration } from "../core/codex.js";
+import { runDoctor } from "../core/doctor.js";
+import { readPackageInfo } from "../core/package-info.js";
 
 async function main(argv: string[]): Promise<void> {
-  const [command, pathArg] = argv;
+  const [command, ...args] = argv;
 
   if (!command || command === "--help" || command === "-h") {
     printHelp();
     return;
   }
 
+  if (command === "--version" || command === "-v") {
+    const info = await readPackageInfo();
+    process.stdout.write(`${info.name}@${info.version}\n`);
+    return;
+  }
+
+  const pathArg = args[0];
   const vaultRoot = pathArg ?? ".";
 
   if (command === "init") {
@@ -56,6 +65,15 @@ async function main(argv: string[]): Promise<void> {
     return;
   }
 
+  if (command === "doctor") {
+    const fix = args.includes("--fix");
+    const doctorPath = args.find((arg) => arg !== "--fix");
+    const report = await runDoctor(doctorPath, { fix });
+    printJson(report);
+    if (!report.ok) process.exitCode = 1;
+    return;
+  }
+
   throw new Error(`Unknown command: ${command}`);
 }
 
@@ -68,6 +86,7 @@ Usage:
   agentic-vault check <vault-path>
   agentic-vault mcp <vault-path>
   agentic-vault codex-install [vault-path]
+  agentic-vault doctor [--fix] [vault-path]
 
 V1 is local-first: raw/ is read-only source material, wiki/ is AI-maintained markdown.
 `);

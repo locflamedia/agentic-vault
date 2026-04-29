@@ -135,6 +135,9 @@ function serverCommand(vaultRoot: string): { command: string; args: string[] } {
   }
 
   if (cliPath && existsSync(cliPath)) {
+    if (cliPath.endsWith(".ts")) {
+      return { command: process.execPath, args: [...process.execArgv, cliPath, "mcp", vaultRoot] };
+    }
     return { command: "node", args: [cliPath, "mcp", vaultRoot] };
   }
 
@@ -147,7 +150,7 @@ function upsertMcpServer(config: string, command: string, args: string[]): strin
     `command = ${tomlString(command)}`,
     `args = [${args.map(tomlString).join(", ")}]`
   ].join("\n");
-  const sectionPattern = /(?:^|\n)\[mcp_servers\.agentic-vault\]\n(?:[^\n]*(?:\n|$))*?(?=\n\[[^\]]+\]|\s*$)/m;
+  const sectionPattern = /(?:^|\n)\[mcp_servers\.agentic-vault\]\n[\s\S]*?(?=\n\[[^\]]+\]|$)/;
   const trimmedBlock = `\n${block}\n`;
 
   if (sectionPattern.test(config)) {

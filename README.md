@@ -17,9 +17,11 @@ Or install globally:
 ```bash
 npm install -g @locflamedia/agentic-vault
 agentic-vault codex-install ~/Documents/my-vault
+agentic-vault doctor ~/Documents/my-vault
 ```
 
 `codex-install` initializes the vault, registers the MCP server in Codex, and installs the proactive Agentic Vault skill. If you omit the path, it uses `~/Documents/my-vault`.
+`doctor` verifies the vault, Codex config, proactive skill, MCP command, and an MCP smoke test.
 
 For local development from the repository:
 
@@ -37,6 +39,8 @@ agentic-vault scan ./my-vault
 agentic-vault check ./my-vault
 agentic-vault mcp ./my-vault
 agentic-vault codex-install ~/Documents/my-vault
+agentic-vault doctor ~/Documents/my-vault
+agentic-vault doctor --fix ~/Documents/my-vault
 ```
 
 `init` creates:
@@ -113,6 +117,29 @@ agentic-vault codex-install ~/Documents/my-vault
 ```
 
 This initializes the vault, writes the MCP entry to `~/.codex/config.toml`, and installs the bundled skill to `~/.codex/skills/agentic-vault/SKILL.md`. After restarting Codex, the skill nudges the agent to use `vault_scan`, `wiki_find_related`, and read/write wiki tools when the user asks about saved knowledge, prior notes, durable memory, source material, or reusable answers.
+
+### Verify the install
+
+Run:
+
+```bash
+agentic-vault doctor ~/Documents/my-vault
+```
+
+If setup is incomplete, run:
+
+```bash
+agentic-vault doctor --fix ~/Documents/my-vault
+```
+
+Restart Codex after `codex-install` or `doctor --fix` so the new MCP server and skill are loaded.
+
+If `npm install` fails with `ENOTFOUND registry.npmjs.org`, npm cannot resolve the registry host. Check DNS, VPN, proxy, or network access, then retry:
+
+```bash
+npm view @modelcontextprotocol/sdk version
+npm install -g @locflamedia/agentic-vault
+```
 
 ## Update
 

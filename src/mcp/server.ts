@@ -19,7 +19,7 @@ export function createAgenticVaultServer(vaultRoot: string): McpServer {
   const server = new McpServer(
     {
       name: "agentic-vault",
-      version: "0.1.0"
+      version: "0.1.2"
     },
     {
       instructions:
