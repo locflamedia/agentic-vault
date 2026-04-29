@@ -145,14 +145,13 @@ export async function saveAnswerAsPage(
   sources: string[] = []
 ): Promise<{ path: string }> {
   const filename = `${slugifyTitle(title)}.md`;
-  const sourceBlock = sources.length > 0 ? sources.map((source) => `  - ${source}`).join("\n") : "[]";
+  const sourceBlock = sources.length > 0 ? `\n${sources.map((source) => `  - ${source}`).join("\n")}` : " []";
   const today = new Date().toISOString().slice(0, 10);
   const page = `---
 title: "${title}"
 type: question
 status: draft
-sources:
-${sourceBlock}
+sources:${sourceBlock}
 related: []
 created: ${today}
 updated: ${today}

@@ -4,6 +4,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { buildGraph } from "../src/core/graph.js";
 import { extractObsidianLinks, parseFrontmatter, stringifyMarkdown } from "../src/core/markdown.js";
+import { defaultWikiPage } from "../src/core/templates.js";
 import {
   initVault,
   readRawSource,
@@ -113,5 +114,16 @@ describe("vault core", () => {
 
     expect(result.path).toBe("wiki/questions/what-is-progressive-overload.md");
     await expect(saveAnswerAsPage(root, "What is progressive overload?", "Duplicate")).rejects.toThrow(/overwrite/i);
+  });
+
+  it("writes empty source lists as valid inline YAML arrays", async () => {
+    const root = await tempVault();
+    await initVault(root);
+
+    const result = await saveAnswerAsPage(root, "Unsourced answer", "Still useful.");
+    const saved = await readFile(path.join(root, result.path), "utf8");
+
+    expect(saved).toContain("sources: []");
+    expect(defaultWikiPage("Empty Sources")).toContain("sources: []");
   });
 });

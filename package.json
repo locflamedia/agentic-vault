@@ -1,10 +1,10 @@
 {
-  "name": "agentic-vault",
+  "name": "@locflamedia/agentic-vault",
   "version": "0.1.0",
   "description": "Local-first MCP server and CLI for AI-managed Obsidian-compatible knowledge vaults.",
   "type": "module",
   "bin": {
-    "agentic-vault": "./dist/cli/index.js"
+    "agentic-vault": "dist/cli/index.js"
   },
   "files": [
     "dist",
@@ -15,6 +15,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli/index.ts",
+    "prepack": "pnpm build",
+    "prepublishOnly": "pnpm test && pnpm typecheck",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -31,5 +33,27 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "main": "./dist/cli/index.js",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "obsidian",
+    "markdown",
+    "knowledge-base",
+    "ai-agent",
+    "local-first"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/locflamedia/agentic-vault.git"
+  },
+  "bugs": {
+    "url": "https://github.com/locflamedia/agentic-vault/issues"
+  },
+  "homepage": "https://github.com/locflamedia/agentic-vault#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@10.26.1"
 }

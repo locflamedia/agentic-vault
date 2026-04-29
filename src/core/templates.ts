@@ -57,13 +57,12 @@ export const DEFAULT_CLAUDE = DEFAULT_AGENTS.replace("Agentic Vault Instructions
 
 export function defaultWikiPage(title: string, type = "concept", sources: string[] = []): string {
   const now = new Date().toISOString().slice(0, 10);
-  const sourceLines = sources.length > 0 ? sources.map((source) => `  - ${source}`).join("\n") : "[]";
+  const sourceLines = sources.length > 0 ? `\n${sources.map((source) => `  - ${source}`).join("\n")}` : " []";
   return `---
 title: "${title}"
 type: ${type}
 status: draft
-sources:
-${sourceLines}
+sources:${sourceLines}
 related: []
 created: ${now}
 updated: ${now}

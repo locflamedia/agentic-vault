@@ -6,21 +6,25 @@ It helps an AI agent turn source material in `raw/` into durable markdown pages 
 
 ## Install
 
+For users:
+
+```bash
+npx @locflamedia/agentic-vault init ./my-vault
+```
+
+Or install globally:
+
+```bash
+npm install -g @locflamedia/agentic-vault
+agentic-vault init ./my-vault
+```
+
+For local development from the repository:
+
 ```bash
 pnpm install
 pnpm build
-```
-
-For local development:
-
-```bash
 pnpm dev -- init ./my-vault
-```
-
-After publishing, the intended install shape is:
-
-```bash
-npx agentic-vault init ./my-vault
 ```
 
 ## CLI
@@ -52,6 +56,19 @@ Configure your MCP client to start the server with:
 {
   "mcpServers": {
     "agentic-vault": {
+      "command": "npx",
+      "args": ["-y", "@locflamedia/agentic-vault", "mcp", "/absolute/path/to/my-vault"]
+    }
+  }
+}
+```
+
+If installed globally, you can use:
+
+```json
+{
+  "mcpServers": {
+    "agentic-vault": {
       "command": "agentic-vault",
       "args": ["mcp", "/absolute/path/to/my-vault"]
     }
@@ -59,7 +76,7 @@ Configure your MCP client to start the server with:
 }
 ```
 
-During development, use the built output:
+During repository development, use the built output:
 
 ```json
 {
@@ -70,6 +87,37 @@ During development, use the built output:
     }
   }
 }
+```
+
+For Codex CLI:
+
+```bash
+codex mcp add agentic-vault -- npx -y @locflamedia/agentic-vault mcp /absolute/path/to/my-vault
+```
+
+If you cloned the repo locally:
+
+```bash
+codex mcp add agentic-vault -- node /absolute/path/to/agentic-vault/dist/cli/index.js mcp /absolute/path/to/my-vault
+```
+
+## Update
+
+If you installed from npm:
+
+```bash
+npm update -g @locflamedia/agentic-vault
+```
+
+If your MCP config uses `npx -y @locflamedia/agentic-vault`, restart your MCP client to pick up the latest published version.
+
+If you cloned the repo:
+
+```bash
+cd /path/to/agentic-vault
+git pull
+pnpm install
+pnpm build
 ```
 
 ## Vault Rules
